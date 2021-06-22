@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request
+from database import DataBase
 
 app = Flask(__name__)
+db = DataBase
 
 @app.route('/')
 def index():
-    # some = "HELLO"
+    ip = request.remote_addr
+    # check AbuseIPDB
     return render_template('index.html', **locals())
 
 @app.route('/web', methods=['POST'])
