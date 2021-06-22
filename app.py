@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from database import DataBase
 
 app = Flask(__name__)
-db = DataBase
+db = DataBase()
 
 @app.route('/')
 def index():
@@ -13,7 +13,11 @@ def index():
 @app.route('/web', methods=['POST'])
 def web():
     #TODO
-    shorten_url = "www.google.com"
+    ip = request.remote_addr
+    url = request.values['url']
+    code = db.allocatelCode()
+    db.insert(code, url, ip)
+    shorten_url = f"127.0.0.1/{code}"
     return render_template('fini.html', **locals())
 
 if __name__ == '__main__':
