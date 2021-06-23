@@ -14,9 +14,9 @@ class DataBase:
         db = mysql.connector.connect(**db_settings)
 
         # Clear and initialize database
-        cursor = db.cursor()
         with open('schema.sql') as file:
             codes = file.read()
+            cursor = db.cursor()
             cursor.execute(codes, multi=True)
 
     # return code or false
