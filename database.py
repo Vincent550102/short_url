@@ -1,17 +1,13 @@
 import mysql.connector
-
-db_settings = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '5jz83j6ji3',
-    'database': 'shorten_url',
-    'charset': 'utf8',
-    'auth_plugin': 'mysql_native_password',
-}
+import configparser
 
 class DataBase:
     def __init__(self):
-        self.conn = mysql.connector.connect(**db_settings)
+
+        # Use database config in config.ini
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        self.conn = mysql.connector.connect(**config['database'])
 
         # Clear and initialize database
         with open('schema.sql') as file:
