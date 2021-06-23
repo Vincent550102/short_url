@@ -1,24 +1,23 @@
-import pymysql
+import mysql.connector
 
 db_settings = {
-    "host": "localhost",
-    "port": 3306,
-    "user": "root",
-    "password": "",
-    "db": "short_url",
-    "charset": "utf8"
+    'host': 'localhost',
+    'user': 'root',
+    'password': '5jz83j6ji3',
+    'database': 'shorten_url',
+    'charset': 'utf8',
+    'auth_plugin': 'mysql_native_password',
 }
 
 class DataBase:
     def __init__(self):
-        conn = pymysql.connect(**db_settings)
+        db = mysql.connector.connect(**db_settings)
 
         # Clear and initialize database
-        with conn.cursor() as cursor:
-            with open('schema.sql') as file:
-                codes = file.read()
-                print(codes)
-                cursor.execute(codes)
+        cursor = db.cursor()
+        with open('schema.sql') as file:
+            codes = file.read()
+            cursor.execute(codes, multi=True)
 
     # return code or false
     def findcodeByUrl(self, url):

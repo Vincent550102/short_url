@@ -1,14 +1,17 @@
+-- Initialize the database.
+-- Drop any existing data and create empty tables.
+
 DROP TABLE IF EXISTS url_map;
-DROP TABLE IF EXISTS codes;
+DROP TABLE IF EXISTS unuse_codes;
+
+
 CREATE TABLE url_map (
-  id bigint NOT NULL AUTO_INCREMENT,
-  author varchar(255) NOT NULL,
-  origin_url varchar(2083),
-  code varchar(10),
-  PRIMARY KEY (id)
+  id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  author VARCHAR(30) NOT NULL,
+  origin_url UNIQUE VARCHAR(2000),
+  code VARCHAR(10),
 );
-CREATE TABLE codes (
-  id bigint NOT NULL,
-  code varchar(10) NOT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE unuse_codes (
+  id INT(20) PRIMARY KEY,
+  code UNIQUE VARCHAR(10) NOT NULL,
 );
