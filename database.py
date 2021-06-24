@@ -68,7 +68,7 @@ class DataBase:
         result = cursor.fetchall()
         print('findByCode result:',result)
         if len(result) > 0:
-            return result[0]
+            return result[0][2]
         else:
             return False
 
