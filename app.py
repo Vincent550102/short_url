@@ -17,7 +17,7 @@ def web():
     url = request.values['url']
     code = db.allocatelCode()
     db.insert(code, url, ip)
-    shorten_url = f"127.0.0.1/{code}"
+    shorten_url = f"127.0.0.1:8080/{code}"
     return render_template('fini.html', **locals())
 
 @app.route("/<code>")
@@ -29,4 +29,4 @@ def api_info(code):
         return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1', port=8080)
