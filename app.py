@@ -20,5 +20,6 @@ def web():
     shorten_url = f"127.0.0.1/{code}"
     return render_template('fini.html', **locals())
 
+
 if __name__ == '__main__':
     app.run(debug=True)
