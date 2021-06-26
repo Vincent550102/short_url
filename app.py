@@ -23,15 +23,16 @@ def web():
     if abuseConfidenceScore > 75:
         abort(403)
     url = request.values['url']
-    code = db.allocatelCode()
+    code = db.allocatelCode(url, ip)
     shorten_url = f"127.0.0.1:8080/{code}"
     return render_template('fini.html', **locals())
 
 @app.route("/<code>")
 def api_info(code):
-    ret = db.findByCode(code)
-    if ret:
-        return redirect(ret, code=302)
+    url = db.findByCode(code)
+    if url:
+        db.codeClicked(code)
+        return redirect(url, code=302)
     else:
         abort(404)
 

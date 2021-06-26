@@ -73,9 +73,18 @@ class DataBase:
         else:
             return False
 
+    def codeClicked(self, code):
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT * FROM url_map WHERE code = %s', (code,))
+        result = cursor.fetchall()[0][4]
+        print("clicked time:", result)
+        cursor.execute('UPDATE url_map SET `clicked`=%s WHERE code=%s', (str(result+1), code))
+        self.conn.commit()
+
+
     # insert data(code, url, author) to db
     def insert(self, code, url, author):
         cursor = self.conn.cursor()
-        ret = cursor.execute('INSERT INTO url_map (code, url, author) VALUES (%s, %s, %s)', (code, url, author))
+        ret = cursor.execute('INSERT INTO url_map (code, url, author, clicked) VALUES (%s, %s, %s, 0)', (code, url, author))
         self.conn.commit()
 
