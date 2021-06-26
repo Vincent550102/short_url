@@ -41,13 +41,14 @@ class DataBase:
             return False
 
     # find unused code
-    def allocatelCode(self):
+    def allocatelCode(self, url, ip):
         cursor = self.conn.cursor()
         cursor.execute('SELECT MIN(id), code FROM unuse_codes')
         result = cursor.fetchall()
         cursor.execute('DELETE FROM unuse_codes WHERE code = %s', (result[0][1], ))
-        print('findUnusedCode result:',result)
+        print('findUnusedCode result:', result)
         self.conn.commit()
+        self.insert(result[0][1], url, ip)
         return result[0][1]
 
     # return data(code, url)
