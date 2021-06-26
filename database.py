@@ -30,11 +30,11 @@ class DataBase:
         print(ret)
 
     # return code or false
-    def findcodeByUrl(self, url):
+    def findcodeByUrlandAuthor(self, url, author):
         cursor = self.conn.cursor()
-        cursor.execute('SELECT code FROM url_map WHERE url = %s', (url,))
+        cursor.execute('SELECT code FROM url_map WHERE author = %s AND url = %s', (author, url))
         result = cursor.fetchall()
-        print('findcodeByUrl result:',result)
+        print('findcodeByUrlandAuthor result:',result)
         if len(result) > 0:
             return result[0][0]
         else:
@@ -42,11 +42,14 @@ class DataBase:
 
     # find unused code
     def allocatelCode(self, url, ip):
+        # prevent rebuild url by same author
+        if self.findcodeByUrlandAuthor(url, ip):
+            return self.findcodeByUrlandAuthor(url, ip)
         cursor = self.conn.cursor()
         cursor.execute('SELECT MIN(id), code FROM unuse_codes')
         result = cursor.fetchall()
         cursor.execute('DELETE FROM unuse_codes WHERE code = %s', (result[0][1], ))
-        print('findUnusedCode result:', result)
+        print('allocatelCode result:', result)
         self.conn.commit()
         self.insert(result[0][1], url, ip)
         return result[0][1]
@@ -75,8 +78,8 @@ class DataBase:
 
     def codeClicked(self, code):
         cursor = self.conn.cursor()
-        cursor.execute('SELECT * FROM url_map WHERE code = %s', (code,))
-        result = cursor.fetchall()[0][4]
+        cursor.execute('SELECT clicked FROM url_map WHERE code = %s', (code,))
+        result = cursor.fetchall()[0][0]
         print("clicked time:", result)
         cursor.execute('UPDATE url_map SET `clicked`=%s WHERE code=%s', (str(result+1), code))
         self.conn.commit()
