@@ -54,11 +54,11 @@ class DataBase:
     # return data(code, url)
     def findByAuthor(self, author):
         cursor = self.conn.cursor()
-        cursor.execute('SELECT code,url FROM url_map WHERE author = %s', (author,))
+        cursor.execute('SELECT code,url,clicked FROM url_map WHERE author = %s', (author,))
         result = cursor.fetchall()
         print('findByAuthor result:',result)
         if len(result) > 0:
-            return result[0]
+            return result
         else:
             return False
 

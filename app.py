@@ -8,7 +8,7 @@ db = DataBase()
 @app.route('/')
 def index():
     ip = request.remote_addr
-    # check AbuseIPDB
+    historys = db.findByAuthor(ip)
 
     return render_template('index.html', **locals())
 
