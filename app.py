@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 from database import DataBase
+import requests, configparser, json
 
 app = Flask(__name__)
 db = DataBase()
@@ -8,12 +9,18 @@ db = DataBase()
 def index():
     ip = request.remote_addr
     # check AbuseIPDB
+
     return render_template('index.html', **locals())
 
 @app.route('/web', methods=['POST'])
 def web():
     #TODO
     ip = request.remote_addr
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    abuseConfidenceScore = json.loads(requests.get(f'https://api.abuseipdb.com/api/v2/check?ipAddress={ip}',headers={'key': config['AbuseIPDB']['apikey']}).text)['data']['abuseConfidenceScore']
+    if abuseConfidenceScore > -1:
+        abort(403)
     url = request.values['url']
     code = db.allocatelCode()
     db.insert(code, url, ip)
@@ -26,7 +33,18 @@ def api_info(code):
     if ret:
         return redirect(ret, code=302)
     else:
-        return render_template('404.html'), 404
+        abort(404)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
+@app.errorhandler(403)
+def forbidden(e):
+    # note that we set the 404 status explicitly
+    return render_template('403.html'), 403
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=8080)
