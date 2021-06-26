@@ -18,6 +18,18 @@
         <button class="button" type="submit">Shorten!</button>
         </p>
     </form>
+
+    {% if historys %}
+    <table>
+    {% for history in historys %}
+        <tr>
+            <td>{{ history[1] }}</td>
+            <td>127.0.0.1:8080/{{ history[0] }}</td>
+            <td>{{ history[2] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
     <div>your ip : {{ ip }} (just for record shorten history)</div>
 </body>
 </html>
