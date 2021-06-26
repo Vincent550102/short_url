@@ -21,6 +21,11 @@
 
     {% if historys %}
     <table>
+        <tr>
+            <th>url</th>
+            <th>shorten url</th>
+            <th>clicked time</th>
+        </tr>
     {% for history in historys %}
         <tr>
             <td>{{ history[1] }}</td>
@@ -30,6 +35,9 @@
     {% endfor %}
     </table>
     {% endif %}
+    <br>
+    <br>
+    <br>
     <div>your ip : {{ ip }} (just for record shorten history)</div>
 </body>
 </html>
