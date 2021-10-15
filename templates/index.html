@@ -1,43 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URLshortener</title>
-</head>
-<body>
-    <h1>URLshortener</h1>
-    <form method="POST" action="/web">
-        <p>Your URL:<br>
-        <span class='input'>
-            <input name="url" id="url" size="30" placeholder="your long url">
-            <span></span>
-        </span>
-        <br>
-        <button class="button" type="submit">Shorten!</button>
-        </p>
-    </form>
 
-    {% if historys %}
-    <table>
-        <tr>
-            <th>url</th>
-            <th>shorten url</th>
-            <th>clicked time</th>
-        </tr>
-    {% for history in historys %}
-        <tr>
-            <td>{{ history[1] }}</td>
-            <td>127.0.0.1:8080/{{ history[0] }}</td>
-            <td>{{ history[2] }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    {% endif %}
-    <br>
-    <br>
-    <br>
-    <div>your ip : {{ ip }} (just for record shorten history)</div>
+<head>
+  <!-- Primary Meta Tags -->
+  <title>Vincent55ㄉ短網址</title>
+  <meta name="title" content="Vincent55ㄉ短網址">
+  <meta name="description" content="免費ㄉ短網址服務🐣">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://st.vincent55.tw/">
+  <meta property="og:title" content="Vincent55ㄉ短網址">
+  <meta property="og:description" content="免費ㄉ短網址服務🐣">
+  <meta property="og:image" content="./assets/img/vincent.jpeg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="http://st.vincent55.tw/">
+  <meta property="twitter:title" content="Vincent55ㄉ短網址">
+  <meta property="twitter:description" content="免費ㄉ短網址服務🐣">
+  <meta property="twitter:image" content="./assets/img/vincent.jpeg">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- Material Kit CSS -->
+  <link href="./assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <link href="./assets/css/custom.css" rel="stylesheet" />
+  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+  <div class="modal" tabindex="-1" role="dialog" id="urlModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">縮好惹🦄</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body" id="urlModalInner">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            onclick="refresh_main_page()">OK!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="white">
+      <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+      <div class="logo">
+        <a href="" class="simple-text logo-normal">
+          Vincent55ㄉ短網址
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active  ">
+            <a class="nav-link" href="#0">
+              <i class="material-icons">dashboard</i>
+              <p>縮網址😇</p>
+            </a>
+          </li>
+          <!-- your sidebar here -->
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row">
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">輸入網址👨‍💻</h4>
+                  </div>
+                  <div class="card-body">
+                    <form id="urlForm">
+                      <div class="row">
+                        <div class="col-md-10">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">網址</label>
+                            <input type="text" class="form-control" id="url">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group my-btn-mg">
+                            <button class="btn btn-primary pull-right" onclick="fetch_from_server()">縮短！</button>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                {% if historys %}
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title ">縮過ㄉ紀錄🚀</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th>
+                              原本ㄉ網址
+                            </th>
+                            <th>
+                              縮過ㄉ網址
+                            </th>
+                            <th>
+                              點擊次數
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for history in historys %}
+                          <tr>
+                            <td>
+                              {{history[1] if len(history[1]) < 30 history[1] else history[1][:28]+"..."}} </td>
+                            <td>
+                              127.0.0.1:8080/{{ history[0] }}
+                            </td>
+                            <td>
+                              {{ history[2] }}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">尼的 IP🥝</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-10">
+                        <h5>{{ ip }}</h5>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-profile">
+                <div class="card-avatar">
+                  <a href="">
+                    <img class="img" src="./assets/img/faces/vincent.jpeg" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray">Dev</h6>
+                  <h4 class="card-title">Vincent55</h4>
+                  <p class="card-description">
+                    Don't be scared of the truth because we need to restart the human foundation in
+                    truth And I love
+                    you
+                    like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                  </p>
+                  <div class="row align-items-center">
+                    <div class="col-4">
+                      <button class="btn btn-social btn-just-icon  btn-facebook">
+                        <i class="fa fa-facebook"> </i>
+                      </button>
+                    </div>
+                    <div class="col-4 ">
+                      <button class="btn btn-social btn-just-icon  btn-github">
+                        <i class="fa fa-github"></i>
+                      </button>
+                    </div>
+                    <div class="col-4">
+                      <button class="btn btn-social btn-just-icon  btn-linkedin">
+                        <i class="fa fa-linkedin"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+            <ul>
+              <li>
+                <a href="https://vincent55.tw">
+                  Vincent55
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>, made with <i class="material-icons">favorite</i> by
+            <a href="https://vincent55.tw" target="_blank">Vincent55</a> for a better web.
+          </div>
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--====== JQuery ======-->
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <!--====== poper js ======-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <!--====== BS js ======-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
+  <!--====== MY custom js ======-->
+  <script src="./assets/js/custom.js"></script>
 </body>
+
 </html>
