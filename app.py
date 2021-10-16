@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, redirect, abort
 from database import DataBase
-import requests, configparser, json
+import requests
+import configparser
+import json
 
 app = Flask(__name__)
 db = DataBase()
+
 
 @app.route('/')
 def index():
@@ -12,20 +15,23 @@ def index():
 
     return render_template('index.html', **locals())
 
+
 @app.route('/web', methods=['POST'])
 def web():
-    #TODO
+    # TODO
     ip = request.remote_addr
     # abuseipdb
     config = configparser.ConfigParser()
     config.read('config.ini')
-    abuseConfidenceScore = json.loads(requests.get(f'https://api.abuseipdb.com/api/v2/check?ipAddress={ip}',headers={'key': config['AbuseIPDB']['apikey']}).text)['data']['abuseConfidenceScore']
+    abuseConfidenceScore = json.loads(requests.get(f'https://api.abuseipdb.com/api/v2/check?ipAddress={ip}', headers={
+                                      'key': config['AbuseIPDB']['apikey']}).text)['data']['abuseConfidenceScore']
     if abuseConfidenceScore > 75:
         abort(403)
     url = request.values['url']
     code = db.allocatelCode(url, ip)
     shorten_url = f"127.0.0.1:8080/{code}"
     return render_template('fini.html', **locals())
+
 
 @app.route("/<code>")
 def api_info(code):
@@ -36,10 +42,12 @@ def api_info(code):
     else:
         abort(404)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
+
 
 @app.errorhandler(403)
 def forbidden(e):
