@@ -11,8 +11,9 @@ db = DataBase()
 @app.route('/')
 def index():
     ip = request.remote_addr
+    domain = 'http://st.vincent55.tw'
     historys = db.findByAuthor(ip)
-
+    
     return render_template('index.html', **locals())
 
 
@@ -20,6 +21,7 @@ def index():
 def web():
     # TODO
     ip = request.remote_addr
+    domain = 'http://st.vincent55.tw'
     # abuseipdb
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -29,7 +31,7 @@ def web():
         abort(403)
     url = request.values['url']
     code = db.allocatelCode(url, ip)
-    shorten_url = f"127.0.0.1:8080/{code}"
+    shorten_url = f"{domain}/{code}"
     return render_template('fini.html', **locals())
 
 
