@@ -47,8 +47,9 @@ class DataBase:
     # find unused code
     def allocatelCode(self, url, ip):
         # prevent rebuild url by same author
-        if self.findcodeByUrlandAuthor(url, ip):
-            return self.findcodeByUrlandAuthor(url, ip)
+        prev_code = self.findcodeByUrlandAuthor(url, ip)
+        if prev_code:
+            return prev_code
         cursor = self.conn.cursor()
         cursor.execute('SELECT MIN(id), code FROM unuse_codes')
         result = cursor.fetchall()
