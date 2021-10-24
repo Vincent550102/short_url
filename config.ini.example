@@ -1,0 +1,9 @@
+[database]
+host = localhost
+user = rroot
+password = rroot
+database = shorten_url
+charset = utf8
+auth_plugin = mysql_native_password
+[AbuseIPDB]
+apikey = [YOUR AbuseIPDB APIKEY]
