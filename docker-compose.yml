@@ -1,0 +1,23 @@
+version: "3.4"
+
+services:
+  mysql8:
+    image: mysql:8
+    container_name: mysql8
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shorten_url
+    ports:
+      - "127.0.0.1:3306:3306"
+  app:
+    container_name: url_shortener
+    build: .
+    restart: "always"
+    depends_on:
+      - mysql8
+    ports:
+      - "80:80"
+    network_mode: "host"
