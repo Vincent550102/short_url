@@ -10,8 +10,10 @@ db = DataBase()
 
 @app.route('/')
 def index():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
     ip = request.remote_addr
-    domain = 'http://st.vincent55.tw'
+    domain = config['Domain']['domain']
     historys = db.findByAuthor(ip)
     
     return render_template('index.html', **locals())
@@ -21,10 +23,10 @@ def index():
 def web():
     # TODO
     ip = request.remote_addr
-    domain = 'http://st.vincent55.tw'
     # abuseipdb
     config = configparser.ConfigParser()
     config.read('config.ini')
+    domain = config['Domain']['domain']
     abuseConfidenceScore = json.loads(requests.get(f'https://api.abuseipdb.com/api/v2/check?ipAddress={ip}', headers={
                                       'key': config['AbuseIPDB']['apikey']}).text)['data']['abuseConfidenceScore']
     if abuseConfidenceScore > 75:
