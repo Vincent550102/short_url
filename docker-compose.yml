@@ -18,6 +18,4 @@ services:
     restart: "always"
     depends_on:
       - mysql8
-    ports:
-      - "80:80"
     network_mode: "host"
