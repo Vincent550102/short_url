@@ -7,8 +7,9 @@ name = "pypi"
 flask = "*"
 mysql-connector-python = "*"
 requests = "*"
+waitress = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3"
