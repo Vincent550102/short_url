@@ -1,5 +1,5 @@
 [database]
-host = localhost
+host = mysql8
 user = root
 password = root
 database = shorten_url
