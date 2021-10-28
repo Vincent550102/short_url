@@ -12,7 +12,7 @@ db = DataBase()
 def index():
     config = configparser.ConfigParser()
     config.read('config.ini')
-    ip = request.remote_addr
+    ip = request.environ['HTTP_X_REAL_IP']
     domain = config['Domain']['domain']
     historys = db.findByAuthor(ip)
     
@@ -22,7 +22,7 @@ def index():
 @app.route('/web', methods=['POST'])
 def web():
     # TODO
-    ip = request.remote_addr
+    ip = request.environ['HTTP_X_REAL_IP']
     # abuseipdb
     config = configparser.ConfigParser()
     config.read('config.ini')
