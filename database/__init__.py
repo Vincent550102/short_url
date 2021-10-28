@@ -21,16 +21,21 @@ class DataBase:
 
         cursor = self.conn.cursor()
         code_table = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-        codes = [("".join(st),)
-                 for st in itertools.product(code_table, repeat=3)]
-        shuffle(codes)
-        for i in range(int(len(codes)/1000 + 1)):
-            part_codes = codes[i*1000: (i+1)*1000]
-            ret = cursor.executemany(
-                'INSERT INTO unuse_codes (code) VALUES (%s)', part_codes)
+        cursor.execute(
+            'SELECT code FROM unuse_codes')
+        has_created = cursor.fetchall()
+        print(has_created)
+        if len(has_created) == 0:
+            codes = [("".join(st),)
+                     for st in itertools.product(code_table, repeat=3)]
+            shuffle(codes)
+            for i in range(int(len(codes)/1000 + 1)):
+                part_codes = codes[i*1000: (i+1)*1000]
+                ret = cursor.executemany(
+                    'INSERT INTO unuse_codes (code) VALUES (%s)', part_codes)
 
-        self.conn.commit()
-        print(ret)
+            self.conn.commit()
+            print(ret)
 
     # return code or false
     def findcodeByUrlandAuthor(self, url, author):

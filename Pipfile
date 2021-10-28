@@ -4,10 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
+Flask = "*"
 mysql-connector-python = "*"
 requests = "*"
-waitress = "*"
+pyOpenSSL = "*"
+gunicorn = "*"
 
 [dev-packages]
 

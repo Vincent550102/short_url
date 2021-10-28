@@ -4,9 +4,10 @@ services:
   mysql8:
     image: mysql:8
     container_name: mysql8
+    restart: "always"
     volumes:
       - ./db:/var/lib/mysql
-      - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./database/custom.cnf:/etc/mysql/conf.d/custom.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: shorten_url
@@ -14,8 +15,22 @@ services:
       - "127.0.0.1:3306:3306"
   app:
     container_name: url_shortener
-    build: .
+    command: gunicorn --bind 0.0.0.0:8001 wsgi:app
+    build: ./app
     restart: "always"
+    ports:
+      - "8081:8081"
     depends_on:
       - mysql8
-    network_mode: "host"
+    links:
+      - mysql8
+  nginx:
+    build: ./nginx
+    restart: "always"
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    links:
+      - app
+
