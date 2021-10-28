@@ -24,7 +24,6 @@ class DataBase:
         cursor.execute(
             'SELECT code FROM unuse_codes')
         has_created = cursor.fetchall()
-        print(has_created)
         if len(has_created) == 0:
             codes = [("".join(st),)
                      for st in itertools.product(code_table, repeat=3)]

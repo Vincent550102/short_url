@@ -15,20 +15,26 @@ services:
       - "127.0.0.1:3306:3306"
   app:
     container_name: url_shortener
-    command: gunicorn --bind 0.0.0.0:8001 wsgi:app
-    build: ./app
+    command: gunicorn --bind 0.0.0.0:8081 wsgi:app
+    build: .
     restart: "always"
-    ports:
-      - "8081:8081"
     depends_on:
       - mysql8
     links:
       - mysql8
   nginx:
-    build: ./nginx
+    image: staticfloat/nginx-certbot
     restart: "always"
     ports:
-      - "80:80"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      CERTBOT_EMAIL: 5020559@gmail.com
+      ENVSUBST_VARS: FQDN
+      FQDN: st.vincent55.tw
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./nginx/conf:/etc/nginx/user.conf.d:ro
     depends_on:
       - app
     links:
