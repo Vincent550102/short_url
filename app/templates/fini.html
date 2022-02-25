@@ -1,8 +1,9 @@
 {% if shorten_url %}
-<a href="javascript:viod(0)" urlAttr="{{ shorten_url }}" class="btn btn-secondary btn-lg  my-link-btn" role="button"
-    id="urlButton" onclick="">{{ shorten_url }}
-    &#160👈點偶複製</a>
+<button href="javascript:viod(0)" urlAttr="{{ shorten_url }}" class="btn btn-secondary btn-lg  my-link-btn"
+    role="button" id="urlButton" onclick=""><i class="material-icons">link</i> {{
+    shorten_url }}</button>
+
 {% else %}
 <span class="badge badge-danger">ERROR</span>
-<h3 class="title">你信用不好😟</h3>
+<h3 class="title">你信用不好</h3>
 {% endif %}

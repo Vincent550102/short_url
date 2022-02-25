@@ -12,17 +12,28 @@ db = DataBase()
 def index():
     config = configparser.ConfigParser()
     config.read('config.ini')
-    ip = request.environ['HTTP_X_REAL_IP']
+    if request.environ.get('HTTP_X_REAL_IP'):
+        ip = request.environ['HTTP_X_REAL_IP']
+    else:
+        ip = request.environ['REMOTE_ADDR']
     domain = config['Domain']['domain']
     historys = db.findByAuthor(ip)
-    
+
     return render_template('index.html', **locals())
+
+
+@app.route('/dev')
+def dev():
+    return render_template('dev.html')
 
 
 @app.route('/web', methods=['POST'])
 def web():
     # TODO
-    ip = request.environ['HTTP_X_REAL_IP']
+    if request.environ.get('HTTP_X_REAL_IP'):
+        ip = request.environ['HTTP_X_REAL_IP']
+    else:
+        ip = request.environ['REMOTE_ADDR']
     # abuseipdb
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -57,5 +68,3 @@ def page_not_found(e):
 def forbidden(e):
     # note that we set the 404 status explicitly
     return render_template('403.html'), 403
-
-

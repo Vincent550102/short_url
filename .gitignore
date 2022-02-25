@@ -1,6 +1,0 @@
-__pycache__
-test.py
-test
-config.ini
-db/*
-!db/.gitkeep

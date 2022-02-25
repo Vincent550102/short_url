@@ -3,7 +3,7 @@
 
 <head>
     <!-- Primary Meta Tags -->
-    <title>Vincent55的短網址</title>
+    <title>Vincent55ㄉ短網址</title>
     <meta name="title" content="Vincent55的短網址">
     <meta name="description" content="免費的短網址服務">
 
@@ -66,7 +66,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">完成！ 點擊複製連結</h5>
+                    <h5 class="modal-title">縮好惹🦄</h5>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex">
@@ -88,13 +88,13 @@
             </div> -->
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item active  ">
+                    <li class="nav-item">
                         <a class="nav-link" href="/">
                             <i class="material-icons">link</i>
                             <p>縮網址</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active ">
                         <a class="nav-link" href="/dev">
                             <i class="material-icons">face</i>
                             <p>開發者們</p>
@@ -123,87 +123,94 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="card">
-                                    <div class="card-header card-header-primary">
-                                        <h4 class="card-title">輸入網址</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <form id="urlForm">
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <div class="form-group">
-                                                        <label class="bmd-label-floating">網址</label>
-                                                        <input type="text" class="form-control default" id="url"
-                                                            placeholder="想要縮ㄉ網址">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group my-btn-mg">
-                                                        <button class="btn btn-primary pull-right"
-                                                            onclick="fetch_from_server()">縮短！</button>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </form>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class=" card card-profile">
+                                <div class="card-avatar">
+                                    <a href="">
+                                        <img class="img"
+                                            src="https://cdn.jsdelivr.net/gh/ncchen99/web-app-assets@3.6/Vincent55/shortUrl/assets/img/faces/vincent.jpeg" />
+                                    </a>
                                 </div>
-
-                                {% if historys %}
-                                <div class="card">
-                                    <div class="card-header card-header-primary">
-                                        <h4 class="card-title ">紀錄</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table" id="urlTable">
-                                                <thead class=" text-primary">
-                                                    <tr>
-                                                        <th>
-                                                            原本的網址
-                                                        </th>
-                                                        <th>
-                                                            縮過的網址
-                                                        </th>
-                                                        <th>
-                                                            點擊次數
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for history in historys %}
-                                                    <tr>
-                                                        <td>
-                                                            <a href="{{ history[1] }}">
-                                                                {{ history[1] }} </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{domain}}/{{ history[0] }}"> {{domain}}/{{
-                                                                history[0] }}</a>
-                                                        </td>
-                                                        <td>
-                                                            {{ history[2] }}
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
+                                <div class="card-body">
+                                    <h6 class="card-category text-gray">BACKEND</h6>
+                                    <h4 class="card-title">Vincent55</h4>
+                                    <p class="card-description">
+                                        對資訊各領域原理抱持好奇，且不讓明天後悔地，持續探索者。
+                                    </p>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="d-flex flex-row">
+                                            <div class="p-2">
+                                                <a href="https://www.facebook.com/profile.php?id=100006484806838"
+                                                    class="btn btn-social btn-just-icon  btn-facebook">
+                                                    <i class="fa fa-facebook"> </i>
+                                                </a>
+                                            </div>
+                                            <div class="p-2"><a href="https://github.com/Vincent550102"
+                                                    class="btn btn-social btn-just-icon  btn-github">
+                                                    <i class="fa fa-github"></i>
+                                                </a></div>
                                         </div>
                                     </div>
                                 </div>
-                                {% endif %}
-                                <div class="card">
-                                    <div class="card-header card-header-primary">
-                                        <h4 class="card-title">IP</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <h5>{{ ip }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile">
+                                <div class="card-avatar">
+                                    <a href="">
+                                        <img class="img"
+                                            src="https://cdn.jsdelivr.net/gh/ncchen99/web-app-assets@3.6/Vincent55/shortUrl/assets/img/faces/cccbeginner.jpg" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-category text-gray">DATABASE</h6>
+                                    <h4 class="card-title">cccbeginner</h4>
+                                    <p class="card-description">
+                                        我在團隊中負責雜耍：）
+                                    </p>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="d-flex flex-row">
+                                            <div class="p-2">
+                                                <a href="https://www.facebook.com/profile.php?id=100014666329422"
+                                                    class="btn btn-social btn-just-icon  btn-facebook">
+                                                    <i class="fa fa-facebook"> </i>
+                                                </a>
                                             </div>
-                                            <div class="clearfix"></div>
+                                            <div class="p-2"><a href="https://github.com/cccbeginner"
+                                                    class="btn btn-social btn-just-icon  btn-github">
+                                                    <i class="fa fa-github"></i>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-profile">
+                                <div class="card-avatar">
+                                    <a href="">
+                                        <img class="img"
+                                            src="https://cdn.jsdelivr.net/gh/ncchen99/web-app-assets@3.6/Vincent55/shortUrl/assets/img/faces/ncchen.png" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-category text-gray">FRONTEND</h6>
+                                    <h4 class="card-title">ncchen</h4>
+                                    <p class="card-description">
+                                        偶素可💓ㄉ小捧油，很開心認識尼🚀可以來加偶好友窩🔗
+                                    </p>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="d-flex flex-row">
+                                            <div class="p-2">
+                                                <a href="https://www.facebook.com/WHCSCKids/"
+                                                    class="btn btn-social btn-just-icon  btn-facebook">
+                                                    <i class="fa fa-facebook"> </i>
+                                                </a>
+                                            </div>
+                                            <div class="p-2"><a href="https://github.com/ncchen99"
+                                                    class="btn btn-social btn-just-icon  btn-github">
+                                                    <i class="fa fa-github"></i>
+                                                </a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +251,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-
     <!--====== bootstrap-material-design js ======-->
     <script
         src="https://cdn.jsdelivr.net/gh/ncchen99/web-app-assets@3.6/Vincent55/shortUrl/assets/js/bootstrap-material-design.min.js"></script>
